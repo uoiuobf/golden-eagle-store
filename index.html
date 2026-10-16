@@ -34,7 +34,7 @@
       <input type="text" placeholder="ابحث عن لعبة أو برنامج..." style="background: transparent; border: none; outline: none; color: white; width: 100%; font-family: 'Cairo', sans-serif; font-size: 13px;">
     </div>
 
-    <div class="header-actions">
+    <div class="header-actions" style="display: flex; align-items: center; gap: 10px;">
       <button class="icon-btn" title="المفضلة">
         <i class="far fa-heart"></i>
         <span class="badge">0</span>
@@ -45,10 +45,16 @@
         <span id="cartCount" class="badge">0</span>
       </button>
 
+      <!-- زر تسجيل الدخول -->
       <button class="login-btn" onclick="openLogin()" id="loginButton">
         <i class="fas fa-user"></i>
         تسجيل الدخول
       </button>
+
+      <!-- دائرة بروفايل المستخدم (تظهر تلقائياً بعد تسجيل الدخول) -->
+      <div id="userProfileArea" style="display: none; align-items: center; cursor: pointer;" onclick="openProfileModal()" title="إدارة البروفايل">
+        <img id="userAvatarImg" src="" alt="Avatar" style="width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover;">
+      </div>
     </div>
 
   </div>
@@ -74,7 +80,7 @@
   </div>
 </section>
 
-<!-- التصنيفات السريعة (Categories Grid) بنفس أسلوب Angel Store -->
+<!-- التصنيفات السريعة (Categories Grid) -->
 <div class="container" style="margin-top: 40px;">
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
     
@@ -251,14 +257,35 @@
   <p>جميع الحقوق محفوظة © 2026 <strong>Golden Eagle Store</strong> - متجر الحسابات وشحن الألعاب الرقمية الموثوق.</p>
 </footer>
 
-<!-- Login Modal -->
-<div class="login-modal" id="loginModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000;">
+<!-- Login Modal (نافذة تسجيل الدخول) -->
+<div class="login-modal" id="loginModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000;">
   <div class="login-box" style="background: #141416; border: 1px solid var(--primary); padding: 30px; border-radius: 15px; width: 350px; text-align: center;">
-    <h3 style="color: var(--secondary); margin-bottom: 20px;">تسجيل الدخول إلى المتجر</h3>
+    <h3 style="color: var(--secondary); margin-bottom: 20px;"><i class="fas fa-user-circle"></i> تسجيل الدخول إلى المتجر</h3>
     <input type="text" id="usernameInput" placeholder="اسم المستخدم" style="width: 100%; padding: 10px; margin-bottom: 12px; background: #09090b; border: 1px solid #333; color: white; border-radius: 8px;">
     <input type="password" id="passwordInput" placeholder="كلمة المرور" style="width: 100%; padding: 10px; margin-bottom: 20px; background: #09090b; border: 1px solid #333; color: white; border-radius: 8px;">
-    <button onclick="loginUser()" style="width: 100%; padding: 10px; margin-bottom: 10px;">دخول</button>
+    <button onclick="loginUser()" class="btn-primary" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px;">دخول</button>
     <button class="close-btn" onclick="closeLogin()" style="width: 100%; background: transparent; border: 1px solid #555; color: #aaa; padding: 8px; border-radius: 8px; cursor: pointer;">إغلاق</button>
+  </div>
+</div>
+
+<!-- Profile Modal (نافذة البروفايل) -->
+<div class="login-modal" id="profileModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000;">
+  <div class="login-box" style="background: #141416; border: 1px solid var(--primary); padding: 30px; border-radius: 15px; width: 360px; text-align: center;">
+    <h3 style="color: var(--secondary); margin-bottom: 20px;"><i class="fas fa-user-cog"></i> إعدادات البروفايل</h3>
+    
+    <div style="margin-bottom: 15px;">
+      <img id="modalAvatarPreview" src="" alt="Preview" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; margin-bottom: 10px;">
+    </div>
+
+    <label style="display: block; text-align: right; color: #aaa; font-size: 12px; margin-bottom: 5px;">تعديل الاسم:</label>
+    <input type="text" id="editUsernameInput" placeholder="اكتب اسمك الجديد" style="width: 100%; padding: 10px; margin-bottom: 15px; background: #09090b; border: 1px solid #333; color: white; border-radius: 8px;">
+
+    <label style="display: block; text-align: right; color: #aaa; font-size: 12px; margin-bottom: 5px;">رابط صورة البروفايل (رابط مباشر لصورة):</label>
+    <input type="text" id="editAvatarInput" placeholder="ضع رابط الصورة هنا" style="width: 100%; padding: 10px; margin-bottom: 20px; background: #09090b; border: 1px solid #333; color: white; border-radius: 8px;">
+
+    <button onclick="saveProfileChanges()" class="btn-primary" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px;">حفظ التعديلات</button>
+    <button onclick="logoutUser()" style="width: 100%; background: #ff4757; color: white; border: none; padding: 8px; border-radius: 8px; cursor: pointer; margin-bottom: 10px;">تسجيل الخروج</button>
+    <button onclick="closeProfileModal()" style="width: 100%; background: transparent; border: 1px solid #555; color: #aaa; padding: 8px; border-radius: 8px; cursor: pointer;">إغلاق</button>
   </div>
 </div>
 
