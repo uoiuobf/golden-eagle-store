@@ -76,8 +76,11 @@ function openProfileModal(){
   const avatar = localStorage.getItem("userAvatar") || "image/logo.jpg";
 
   document.getElementById("editUsernameInput").value = user;
-  document.getElementById("editAvatarInput").value = avatar;
   document.getElementById("modalAvatarPreview").src = avatar;
+  
+  // تفريغ حقل الملفات عند الفتح
+  const fileInput = document.getElementById("editAvatarFile");
+  if(fileInput) fileInput.value = "";
 
   document.getElementById("profileModal").style.display = "flex";
 }
@@ -86,21 +89,31 @@ function closeProfileModal(){
   document.getElementById("profileModal").style.display = "none";
 }
 
-// حفظ تعديلات الاسم أو صورة البروفايل
+// حفظ تعديلات الاسم أو صورة البروفايل المرفوعة من الجهاز
 function saveProfileChanges(){
   const newName = document.getElementById("editUsernameInput").value.trim();
-  const newAvatar = document.getElementById("editAvatarInput").value.trim();
+  const fileInput = document.getElementById("editAvatarFile");
 
   if(newName !== ""){
     localStorage.setItem("loggedUser", newName);
   }
-  if(newAvatar !== ""){
-    localStorage.setItem("userAvatar", newAvatar);
-  }
 
-  updateUIAfterLogin();
-  closeProfileModal();
-  alert("تم تحديث البروفايل بنجاح! ✨");
+  // التحقق إذا اختار المستخدم صورة جديدة من جهازه
+  if(fileInput && fileInput.files && fileInput.files[0]){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      // حفظ الصورة كبيانات داخل المتصفح
+      localStorage.setItem("userAvatar", e.target.result);
+      updateUIAfterLogin();
+      closeProfileModal();
+      alert("تم تحديث البروفايل والصورة بنجاح! ✨");
+    };
+    reader.readAsDataURL(fileInput.files[0]);
+  } else {
+    updateUIAfterLogin();
+    closeProfileModal();
+    alert("تم تحديث البروفايل بنجاح! ✨");
+  }
 }
 
 // تسجيل الخروج
