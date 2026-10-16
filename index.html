@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Golden Eagle Store</title>
+  <title>Golden Eagle Store | متجر الألعاب الرقمية</title>
 
-  <!-- أيقونة الموقع Favicon -->
+  <!-- أيقونة الموقع الفخمة -->
   <link rel="icon" href="image/Golden Eagle.jpg" type="image/jpeg">
 
   <link rel="stylesheet" href="style.css">
@@ -21,21 +21,26 @@
   <div class="container header-container">
 
     <div class="logo" style="display: flex; align-items: center; gap: 12px;">
-      <img src="image/Golden Eagle.jpg" alt="Golden Eagle Logo" style="width: 45px; height: 45px; border-radius: 8px; border: 1px solid var(--primary);">
+      <img src="image/Golden Eagle.jpg" alt="Golden Eagle Logo" style="width: 48px; height: 48px; border-radius: 12px; border: 2px solid var(--primary); object-fit: cover;">
       <div>
-        <h1>Golden Eagle Store</h1>
-        <span>متجر الألعاب الأول في مصر</span>
+        <h1 style="font-size: 20px; font-weight: 800;">Golden Eagle</h1>
+        <span style="font-size: 11px; color: var(--secondary);">متجر الألعاب الرقمية الأول في مصر</span>
       </div>
     </div>
 
-    <div class="header-actions">
+    <!-- شريط البحث السريع -->
+    <div class="search-bar" style="display: flex; align-items: center; background: #141416; border: 1px solid #2a2a30; border-radius: 25px; padding: 5px 15px; width: 300px;">
+      <i class="fas fa-search" style="color: #888; margin-left: 10px;"></i>
+      <input type="text" placeholder="ابحث عن لعبتك المفضلة..." style="background: transparent; border: none; outline: none; color: white; width: 100%; font-family: 'Cairo', sans-serif; font-size: 13px;">
+    </div>
 
-      <button class="icon-btn">
+    <div class="header-actions">
+      <button class="icon-btn" title="المفضلة">
         <i class="far fa-heart"></i>
         <span class="badge">3</span>
       </button>
 
-      <button class="icon-btn" onclick="toggleCart()">
+      <button class="icon-btn" onclick="toggleCart()" title="عربة التسوق">
         <i class="fas fa-shopping-cart"></i>
         <span id="cartCount" class="badge">0</span>
       </button>
@@ -44,7 +49,6 @@
         <i class="fas fa-user"></i>
         تسجيل الدخول
       </button>
-
     </div>
 
   </div>
@@ -53,33 +57,186 @@
 <!-- Hero Section -->
 <section class="hero">
   <div class="hero-content">
-    <span class="hero-badge">🔥 الأكثر انتظاراً</span>
-    <h2>Grand Theft Auto VI - الإصدار الأسطوري</h2>
-    <p>انطلق في مغامرة لا مثيل لها في عالم مفتوح مذهل واكتشف مدينة Vice City بتفاصيل غير مسبوقة.</p>
+    <span class="hero-badge">🔥 الإصدار الأسطوري المنتظر</span>
+    <h2 style="font-size: 42px; line-height: 1.2; margin: 15px 0;">Grand Theft Auto VI</h2>
+    <p style="color: #aaa; font-size: 15px; line-height: 1.6; margin-bottom: 25px;">
+      انطلق في مغامرة غير مسبوقة في عالم مفتوح ضخـم ومذهل بمدينة Vice City. احجز نسختك الرقمية الآن واستمتع بمزايا الحجز المبكر الحصرية!
+    </p>
 
     <div class="hero-buttons">
-      <button class="btn-primary">قريباً</button>
-      <button class="btn-secondary">شاهد العرض</button>
+      <button class="btn-primary"><i class="fas fa-bolt"></i> احجز الآن (1,999 ج.م)</button>
+      <button class="btn-secondary"><i class="fas fa-play"></i> شاهد العرض الدعائي</button>
     </div>
   </div>
 
   <div class="hero-image">
-    <img src="image/gta-vi.jpg" alt="GTA VI">
+    <img src="image/gta-vi.jpg" alt="GTA VI" style="width: 380px; border-radius: 15px; box-shadow: 0 0 30px rgba(255,140,0,0.3);">
   </div>
 </section>
 
+<!-- Store Categories / Filters -->
+<div class="container" style="margin-top: 30px; display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px;">
+  <button style="background: var(--primary); color: #000; border: none; padding: 8px 20px; border-radius: 20px; font-weight: bold; cursor: pointer;">الكل</button>
+  <button style="background: #141416; color: #fff; border: 1px solid #2a2a30; padding: 8px 20px; border-radius: 20px; cursor: pointer;">عالم مفتوح</button>
+  <button style="background: #141416; color: #fff; border: 1px solid #2a2a30; padding: 8px 20px; border-radius: 20px; cursor: pointer;">أكشن ومغامرات</button>
+  <button style="background: #141416; color: #fff; border: 1px solid #2a2a30; padding: 8px 20px; border-radius: 20px; cursor: pointer;">رياضة</button>
+  <button style="background: #141416; color: #fff; border: 1px solid #2a2a30; padding: 8px 20px; border-radius: 20px; cursor: pointer;">ألعاب رعب</button>
+</div>
+
+<!-- Products Section (أقسام الألعاب الرقمية) -->
+<section class="container" style="margin: 40px auto; padding-bottom: 60px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+    <h3 style="font-size: 24px; border-right: 4px solid var(--primary); padding-right: 10px;">أبرز الألعاب الرقمية المتاحة</h3>
+    <span style="color: var(--secondary); cursor: pointer; font-size: 14px;">عرض الكل <i class="fas fa-arrow-left"></i></span>
+  </div>
+
+  <!-- Grid of Games -->
+  <div class="games-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px;">
+
+    <!-- Game Card 1 -->
+    <div class="game-card" style="background: #141416; border: 1px solid #2a2a30; border-radius: 12px; overflow: hidden; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+      <div style="position: relative; height: 280px; overflow: hidden;">
+        <img src="image/marvels-spider-man-2.jpg" alt="Spider-Man 2" style="width: 100%; height: 100%; object-fit: cover; transition: 0.4s;">
+        <span style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: var(--secondary); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: bold;">PS5 / PC</span>
+      </div>
+      <div style="padding: 15px;">
+        <h4 style="font-size: 16px; margin-bottom: 8px; color: #fff;">Marvel's Spider-Man 2</h4>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="color: var(--primary); font-weight: 800; font-size: 16px;">1,499 ج.م</span>
+          <span style="color: #ffd700; font-size: 12px;"><i class="fas fa-star"></i> 4.9</span>
+        </div>
+        <button class="btn-primary" style="width: 100%; padding: 8px; font-size: 13px; border-radius: 8px;" onclick="alert('تمت الإضافة إلى السلة بنجاح!')">إضافة للسلة</button>
+      </div>
+    </div>
+
+    <!-- Game Card 2 -->
+    <div class="game-card" style="background: #141416; border: 1px solid #2a2a30; border-radius: 12px; overflow: hidden; transition: 0.3s;">
+      <div style="position: relative; height: 280px; overflow: hidden;">
+        <img src="image/god-of-war-ragnarok.jpg" alt="God of War Ragnarok" style="width: 100%; height: 100%; object-fit: cover;">
+        <span style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: var(--secondary); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: bold;">PS4 / PS5</span>
+      </div>
+      <div style="padding: 15px;">
+        <h4 style="font-size: 16px; margin-bottom: 8px; color: #fff;">God of War Ragnarök</h4>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="color: var(--primary); font-weight: 800; font-size: 16px;">1,299 ج.م</span>
+          <span style="color: #ffd700; font-size: 12px;"><i class="fas fa-star"></i> 5.0</span>
+        </div>
+        <button class="btn-primary" style="width: 100%; padding: 8px; font-size: 13px; border-radius: 8px;" onclick="alert('تمت الإضافة إلى السلة بنجاح!')">إضافة للسلة</button>
+      </div>
+    </div>
+
+    <!-- Game Card 3 -->
+    <div class="game-card" style="background: #141416; border: 1px solid #2a2a30; border-radius: 12px; overflow: hidden; transition: 0.3s;">
+      <div style="position: relative; height: 280px; overflow: hidden;">
+        <img src="image/ea-sports-fc-25.jpg" alt="EA Sports FC 25" style="width: 100%; height: 100%; object-fit: cover;">
+        <span style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: var(--secondary); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: bold;">متاح للكل</span>
+      </div>
+      <div style="padding: 15px;">
+        <h4 style="font-size: 16px; margin-bottom: 8px; color: #fff;">EA Sports FC 25</h4>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="color: var(--primary); font-weight: 800; font-size: 16px;">1,699 ج.م</span>
+          <span style="color: #ffd700; font-size: 12px;"><i class="fas fa-star"></i> 4.8</span>
+        </div>
+        <button class="btn-primary" style="width: 100%; padding: 8px; font-size: 13px; border-radius: 8px;" onclick="alert('تمت الإضافة إلى السلة بنجاح!')">إضافة للسلة</button>
+      </div>
+    </div>
+
+    <!-- Game Card 4 -->
+    <div class="game-card" style="background: #141416; border: 1px solid #2a2a30; border-radius: 12px; overflow: hidden; transition: 0.3s;">
+      <div style="position: relative; height: 280px; overflow: hidden;">
+        <img src="image/forza-motorsport-2024.jpg" alt="Forza Motorsport" style="width: 100%; height: 100%; object-fit: cover;">
+        <span style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: var(--secondary); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: bold;">Xbox / PC</span>
+      </div>
+      <div style="padding: 15px;">
+        <h4 style="font-size: 16px; margin-bottom: 8px; color: #fff;">Forza Motorsport</h4>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="color: var(--primary); font-weight: 800; font-size: 16px;">1,199 ج.م</span>
+          <span style="color: #ffd700; font-size: 12px;"><i class="fas fa-star"></i> 4.7</span>
+        </div>
+        <button class="btn-primary" style="width: 100%; padding: 8px; font-size: 13px; border-radius: 8px;" onclick="alert('تمت الإضافة إلى السلة بنجاح!')">إضافة للسلة</button>
+      </div>
+    </div>
+
+    <!-- Game Card 5 -->
+    <div class="game-card" style="background: #141416; border: 1px solid #2a2a30; border-radius: 12px; overflow: hidden; transition: 0.3s;">
+      <div style="position: relative; height: 280px; overflow: hidden;">
+        <img src="image/elden-ring-shadow-of-the-erdtree.jpg" alt="Elden Ring" style="width: 100%; height: 100%; object-fit: cover;">
+        <span style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: var(--secondary); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: bold;">أفضل لعبة</span>
+      </div>
+      <div style="padding: 15px;">
+        <h4 style="font-size: 16px; margin-bottom: 8px; color: #fff;">Elden Ring + DLC</h4>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="color: var(--primary); font-weight: 800; font-size: 16px;">1,399 ج.م</span>
+          <span style="color: #ffd700; font-size: 12px;"><i class="fas fa-star"></i> 4.9</span>
+        </div>
+        <button class="btn-primary" style="width: 100%; padding: 8px; font-size: 13px; border-radius: 8px;" onclick="alert('تمت الإضافة إلى السلة بنجاح!')">إضافة للسلة</button>
+      </div>
+    </div>
+
+    <!-- Game Card 6 -->
+    <div class="game-card" style="background: #141416; border: 1px solid #2a2a30; border-radius: 12px; overflow: hidden; transition: 0.3s;">
+      <div style="position: relative; height: 280px; overflow: hidden;">
+        <img src="image/call-of-duty-mw-iii.jpg" alt="Call of Duty" style="width: 100%; height: 100%; object-fit: cover;">
+        <span style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: var(--secondary); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: bold;">أكشن</span>
+      </div>
+      <div style="padding: 15px;">
+        <h4 style="font-size: 16px; margin-bottom: 8px; color: #fff;">Call of Duty: MW III</h4>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="color: var(--primary); font-weight: 800; font-size: 16px;">1,599 ج.م</span>
+          <span style="color: #ffd700; font-size: 12px;"><i class="fas fa-star"></i> 4.6</span>
+        </div>
+        <button class="btn-primary" style="width: 100%; padding: 8px; font-size: 13px; border-radius: 8px;" onclick="alert('تمت الإضافة إلى السلة بنجاح!')">إضافة للسلة</button>
+      </div>
+    </div>
+
+    <!-- Game Card 7 -->
+    <div class="game-card" style="background: #141416; border: 1px solid #2a2a30; border-radius: 12px; overflow: hidden; transition: 0.3s;">
+      <div style="position: relative; height: 280px; overflow: hidden;">
+        <img src="image/zelda-tears-of-the-kingdom.jpg" alt="Zelda" style="width: 100%; height: 100%; object-fit: cover;">
+        <span style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: var(--secondary); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: bold;">Nintendo</span>
+      </div>
+      <div style="padding: 15px;">
+        <h4 style="font-size: 16px; margin-bottom: 8px; color: #fff;">Zelda: Tears of Kingdom</h4>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="color: var(--primary); font-weight: 800; font-size: 16px;">1,450 ج.م</span>
+          <span style="color: #ffd700; font-size: 12px;"><i class="fas fa-star"></i> 4.9</span>
+        </div>
+        <button class="btn-primary" style="width: 100%; padding: 8px; font-size: 13px; border-radius: 8px;" onclick="alert('تمت الإضافة إلى السلة بنجاح!')">إضافة للسلة</button>
+      </div>
+    </div>
+
+    <!-- Game Card 8 -->
+    <div class="game-card" style="background: #141416; border: 1px solid #2a2a30; border-radius: 12px; overflow: hidden; transition: 0.3s;">
+      <div style="position: relative; height: 280px; overflow: hidden;">
+        <img src="image/nba-2k25.jpg" alt="NBA 2K25" style="width: 100%; height: 100%; object-fit: cover;">
+        <span style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: var(--secondary); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: bold;">رياضة</span>
+      </div>
+      <div style="padding: 15px;">
+        <h4 style="font-size: 16px; margin-bottom: 8px; color: #fff;">NBA 2K25</h4>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="color: var(--primary); font-weight: 800; font-size: 16px;">1,350 ج.م</span>
+          <span style="color: #ffd700; font-size: 12px;"><i class="fas fa-star"></i> 4.5</span>
+        </div>
+        <button class="btn-primary" style="width: 100%; padding: 8px; font-size: 13px; border-radius: 8px;" onclick="alert('تمت الإضافة إلى السلة بنجاح!')">إضافة للسلة</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="background: #09090b; border-top: 1px solid #2a2a30; padding: 30px 0; text-align: center; color: #888; font-size: 13px;">
+  <p>جميع الحقوق محفوظة © 2026 <strong>Golden Eagle Store</strong> - متجر الألعاب الرقمية الموثوق.</p>
+</footer>
+
 <!-- Login Modal -->
-<div class="login-modal" id="loginModal">
-  <div class="login-box">
-
-    <h3>تسجيل الدخول</h3>
-
-    <input type="text" id="usernameInput" placeholder="اسم المستخدم">
-    <input type="password" id="passwordInput" placeholder="كلمة المرور">
-
-    <button onclick="loginUser()">دخول</button>
-    <button class="close-btn" onclick="closeLogin()">إغلاق</button>
-
+<div class="login-modal" id="loginModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000;">
+  <div class="login-box" style="background: #141416; border: 1px solid var(--primary); padding: 30px; border-radius: 15px; width: 350px; text-align: center;">
+    <h3 style="color: var(--secondary); margin-bottom: 20px;">تسجيل الدخول إلى المتجر</h3>
+    <input type="text" id="usernameInput" placeholder="اسم المستخدم" style="width: 100%; padding: 10px; margin-bottom: 12px; background: #09090b; border: 1px solid #333; color: white; border-radius: 8px;">
+    <input type="password" id="passwordInput" placeholder="كلمة المرور" style="width: 100%; padding: 10px; margin-bottom: 20px; background: #09090b; border: 1px solid #333; color: white; border-radius: 8px;">
+    <button onclick="loginUser()" style="width: 100%; padding: 10px; margin-bottom: 10px;">دخول</button>
+    <button class="close-btn" onclick="closeLogin()" style="width: 100%; background: transparent; border: 1px solid #555; color: #aaa; padding: 8px; border-radius: 8px; cursor: pointer;">إغلاق</button>
   </div>
 </div>
 
