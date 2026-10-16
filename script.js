@@ -6,7 +6,7 @@ function toggleCart(){
 }
 
 // =====================
-// LOGIN SYSTEM
+// LOGIN & PROFILE SYSTEM
 // =====================
 
 function openLogin(){
@@ -22,7 +22,6 @@ function loginUserByEmail(){
   const email = document.getElementById("emailInput").value.trim();
   const password = document.getElementById("passwordInput").value.trim();
 
-  // التحقق من صحة الإيميل
   if(email === "" || !email.includes("@") || !email.includes(".")){
     alert("من فضلك أدخل بريد إلكتروني صحيح");
     return;
@@ -33,10 +32,10 @@ function loginUserByEmail(){
     return;
   }
 
-  // استخراج اسم المستخدم من الإيميل (الجزء اللي قبل علامة @)
+  // استخراج اسم المستخدم من البريد الإلكتروني
   const username = email.split('@')[0];
 
-  // حفظ البيانات محلياً
+  // حفظ بيانات المستخدم في المتصفح
   localStorage.setItem("loggedUser", username);
   localStorage.setItem("loggedEmail", email);
   
@@ -47,13 +46,12 @@ function loginUserByEmail(){
   updateUIAfterLogin();
   closeLogin();
   
-  // تفريغ الحقول
   document.getElementById("emailInput").value = "";
   document.getElementById("passwordInput").value = "";
   alert("تم تسجيل الدخول بنجاح أهلاً بك في Golden Eagle! 🦅");
 }
 
-// تحديث واجهة الموقع بعد تسجيل الدخول
+// تحديث واجهة الموقع بعد تسجيل الدخول (إخفاء الزر وإظهار دائرة البروفايل)
 function updateUIAfterLogin(){
   const user = localStorage.getItem("loggedUser");
   const loginBtn = document.getElementById("loginButton");
@@ -61,11 +59,9 @@ function updateUIAfterLogin(){
   const userAvatarImg = document.getElementById("userAvatarImg");
 
   if(user){
-    // إخفاء زر تسجيل الدخول التقليدي وإظهار دائرة البروفايل
     loginBtn.style.display = "none";
     userProfileArea.style.display = "flex";
 
-    // جلب صورة البروفايل المحفوظة
     const savedAvatar = localStorage.getItem("userAvatar") || "image/logo.jpg";
     userAvatarImg.src = savedAvatar;
   } else {
@@ -74,10 +70,7 @@ function updateUIAfterLogin(){
   }
 }
 
-// =====================
-// PROFILE MANAGEMENT (إدارة البروفايل)
-// =====================
-
+// فتح نافذة إعدادات البروفايل عند الضغط على الدائرة فوق
 function openProfileModal(){
   const user = localStorage.getItem("loggedUser");
   const avatar = localStorage.getItem("userAvatar") || "image/logo.jpg";
@@ -93,7 +86,7 @@ function closeProfileModal(){
   document.getElementById("profileModal").style.display = "none";
 }
 
-// حفظ تعديلات الاسم أو الصورة
+// حفظ تعديلات الاسم أو صورة البروفايل
 function saveProfileChanges(){
   const newName = document.getElementById("editUsernameInput").value.trim();
   const newAvatar = document.getElementById("editAvatarInput").value.trim();
@@ -113,6 +106,7 @@ function saveProfileChanges(){
 // تسجيل الخروج
 function logoutUser(){
   localStorage.removeItem("loggedUser");
+  localStorage.removeItem("loggedEmail");
   localStorage.removeItem("userAvatar");
   location.reload();
 }
