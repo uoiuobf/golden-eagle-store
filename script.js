@@ -17,27 +17,40 @@ function closeLogin(){
   document.getElementById("loginModal").style.display = "none";
 }
 
-// تسجيل المستخدم لأول مرة
-function loginUser(){
-  const username = document.getElementById("usernameInput").value.trim();
+// تسجيل المستخدم بالبريد الإلكتروني الحقيقي
+function loginUserByEmail(){
+  const email = document.getElementById("emailInput").value.trim();
   const password = document.getElementById("passwordInput").value.trim();
 
-  if(username === "" || password === ""){
-    alert("من فضلك املأ جميع البيانات");
+  // التحقق من صحة الإيميل
+  if(email === "" || !email.includes("@") || !email.includes(".")){
+    alert("من فضلك أدخل بريد إلكتروني صحيح");
     return;
   }
 
-  // حفظ البيانات في localStorage
+  if(password.length < 6){
+    alert("كلمة المرور يجب أن تكون 6 أحرف على الأقل");
+    return;
+  }
+
+  // استخراج اسم المستخدم من الإيميل (الجزء اللي قبل علامة @)
+  const username = email.split('@')[0];
+
+  // حفظ البيانات محلياً
   localStorage.setItem("loggedUser", username);
+  localStorage.setItem("loggedEmail", email);
+  
   if(!localStorage.getItem("userAvatar")){
-    // صورة افتراضية مبدئية
     localStorage.setItem("userAvatar", "image/logo.jpg");
   }
 
   updateUIAfterLogin();
   closeLogin();
-  document.getElementById("usernameInput").value = "";
+  
+  // تفريغ الحقول
+  document.getElementById("emailInput").value = "";
   document.getElementById("passwordInput").value = "";
+  alert("تم تسجيل الدخول بنجاح أهلاً بك في Golden Eagle! 🦅");
 }
 
 // تحديث واجهة الموقع بعد تسجيل الدخول
