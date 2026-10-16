@@ -257,15 +257,19 @@
   <p>جميع الحقوق محفوظة © 2026 <strong>Golden Eagle Store</strong> - متجر الحسابات وشحن الألعاب الرقمية الموثوق.</p>
 </footer>
 
-<!-- Login Modal (نافذة تسجيل الدخول) -->
+<!-- Login Modal (نافذة تسجيل الدخول بالبريد الإلكتروني) -->
 <div class="login-modal" id="loginModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000;">
   <div class="login-box" style="background: #141416; border: 1px solid var(--primary); padding: 30px; border-radius: 15px; width: 350px; text-align: center;">
-    <h3 style="color: var(--secondary); margin-bottom: 20px;"><i class="fas fa-user-circle"></i> تسجيل الدخول إلى المتجر</h3>
-    <input type="text" id="usernameInput" placeholder="اسم المستخدم" style="width: 100%; padding: 10px; margin-bottom: 12px; background: #09090b; border: 1px solid #333; color: white; border-radius: 8px;">
+    <h3 style="color: var(--secondary); margin-bottom: 20px;"><i class="fas fa-envelope-open-text"></i> تسجيل الدخول بالبريد</h3>
+    
+    <input type="email" id="emailInput" placeholder="البريد الإلكتروني (Email)" style="width: 100%; padding: 10px; margin-bottom: 12px; background: #09090b; border: 1px solid #333; color: white; border-radius: 8px;">
+    
     <input type="password" id="passwordInput" placeholder="كلمة المرور" style="width: 100%; padding: 10px; margin-bottom: 20px; background: #09090b; border: 1px solid #333; color: white; border-radius: 8px;">
-    <button onclick="loginUser()" class="btn-primary" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px;">دخول</button>
+    
+    <button onclick="loginUserByEmail()" class="btn-primary" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px;">تسجيل الدخول</button>
     <button class="close-btn" onclick="closeLogin()" style="width: 100%; background: transparent; border: 1px solid #555; color: #aaa; padding: 8px; border-radius: 8px; cursor: pointer;">إغلاق</button>
   </div>
+</div>
 </div>
 
 <!-- Profile Modal (نافذة البروفايل) -->
