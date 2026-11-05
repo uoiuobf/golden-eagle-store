@@ -127,6 +127,10 @@ body {
   transition: 0.3s;
 }
 
+.btn-secondary:hover {
+  background: rgba(255, 140, 0, 0.1);
+}
+
 /* Hero Section */
 .hero {
   display: flex;
@@ -190,6 +194,16 @@ body {
 .game-card:hover {
   border-color: var(--primary);
   transform: translateY(-5px);
+}
+
+/* Modal Animations */
+.login-modal {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* =====================
