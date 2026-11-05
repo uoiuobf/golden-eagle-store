@@ -11,17 +11,17 @@
   "dir": "rtl",
   "icons": [
     {
-      "src": "image/Golden Eagle.jpg",
+      "src": "image/logo.jpg",
       "sizes": "192x192",
       "type": "image/jpeg"
     },
     {
-      "src": "image/Golden Eagle.jpg",
+      "src": "image/logo.jpg",
       "sizes": "512x512",
       "type": "image/jpeg"
     },
     {
-      "src": "image/Golden Eagle.jpg",
+      "src": "image/logo.jpg",
       "sizes": "512x512",
       "type": "image/jpeg",
       "purpose": "any maskable"
