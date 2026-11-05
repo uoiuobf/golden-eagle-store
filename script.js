@@ -2,33 +2,30 @@
 // 🦅 Golden Eagle Store - Main Script Engine
 // ==========================================
 
-// 📌 اكتب هنا بيانات التواصل الخاصة بك لتوجيه العملاء إليها تلقائياً
-const MY_PHONE_NUMBER = "201000000000"; // اكتب رقم الواتساب بدون علامة + (مثال: 201012345678)
-const MY_DISCORD_SERVER = "https://discord.gg/your-server-invite"; // رابط سيرفر الديسكورد الخاص بك
+const MY_PHONE_NUMBER = "201033139050"; // رقم الواتساب الخاص بك
+const MY_DISCORD_SERVER = "https://discord.gg/eV38XtmmJc"; // رابط ديسكورد الخاص بك
 
 let selectedProduct = { name: "", price: "" };
 
-// =====================
-// ORDER & CONTACT SYSTEM
-// =====================
-
-// فتح نافذة اختيار طريقة الشراء
 function openOrderModal(productName, productPrice) {
   selectedProduct.name = productName;
   selectedProduct.price = productPrice;
 
-  document.getElementById("selectedItemTitle").innerText = productName;
-  document.getElementById("selectedItemPrice").innerText = "السعر: " + productPrice;
+  const titleEl = document.getElementById("selectedItemTitle");
+  const priceEl = document.getElementById("selectedItemPrice");
+  
+  if(titleEl) titleEl.innerText = productName;
+  if(priceEl) priceEl.innerText = "السعر: " + productPrice;
 
-  document.getElementById("orderModal").style.display = "flex";
+  const modal = document.getElementById("orderModal");
+  if(modal) modal.style.display = "flex";
 }
 
-// إغلاق نافذة الشراء
 function closeOrderModal() {
-  document.getElementById("orderModal").style.display = "none";
+  const modal = document.getElementById("orderModal");
+  if(modal) modal.style.display = "none";
 }
 
-// التوجيه إلى الواتساب مع رسالة جاهزة
 function sendToWhatsApp() {
   const loggedUser = localStorage.getItem("loggedUser") || "زائر جديد";
   const message = `مرحباً متجر Golden Eagle 🦅\nأرغب في شراء: *${selectedProduct.name}*\nالسعر المعلن: *${selectedProduct.price}*\nاسم العميل: *${loggedUser}*`;
@@ -40,24 +37,17 @@ function sendToWhatsApp() {
   closeOrderModal();
 }
 
-// التوجيه مباشرة إلى زر الشراء السريع من الهيرو
 function buyViaWhatsApp(productName, productPrice) {
   openOrderModal(productName, productPrice);
 }
 
-// التوجيه إلى سيرفر الديسكورد
 function sendToDiscord() {
   const loggedUser = localStorage.getItem("loggedUser") || "زائر جديد";
-  alert(`سيتم تحويلك لسيرفر الديسكورد، يرجى فتح تكت بنفس التفاصيل التالية:\nالمنتج: ${selectedProduct.name}\nالسعر: ${selectedProduct.price}\nالاسم: ${loggedUser}`);
+  alert(`سيتم تحويلك لسيرفر الديسكورد، يرجى فتح تكت بنفس التفاصيل:\nالمنتج: ${selectedProduct.name}\nالسعر: ${selectedProduct.price}\nالاسم: ${loggedUser}`);
   window.open(MY_DISCORD_SERVER, "_blank");
   closeOrderModal();
 }
 
-// =====================
-// SEARCH & NAVIGATION
-// =====================
-
-// البحث الفوري في المنتجات داخل الصفحة
 function searchProducts() {
   const input = document.getElementById("searchInput").value.toLowerCase().trim();
   const cards = document.querySelectorAll(".game-card");
@@ -74,7 +64,18 @@ function searchProducts() {
   });
 }
 
-// الانتقال السلس إلى الأقسام
+function filterCategory(category) {
+  const cards = document.querySelectorAll(".game-card");
+  cards.forEach(card => {
+    const cardCat = card.getAttribute("data-category");
+    if (category === 'all' || cardCat === category) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
 function scrollToSection(sectionId) {
   const section = document.getElementById(sectionId);
   if (section) {
@@ -82,29 +83,28 @@ function scrollToSection(sectionId) {
   }
 }
 
-// =====================
-// CART (عربة التسوق)
-// =====================
 function toggleCart() {
-  alert("السلة قيد التطوير والتحديث لتشمل الطلبات المتعددة 😎");
+  alert("السلة قيد التحديث والتطوير 😎");
 }
 
-// =====================
-// LOGIN & PROFILE SYSTEM
-// =====================
-
 function openLogin() {
-  document.getElementById("loginModal").style.display = "flex";
+  const modal = document.getElementById("loginModal");
+  if(modal) modal.style.display = "flex";
 }
 
 function closeLogin() {
-  document.getElementById("loginModal").style.display = "none";
+  const modal = document.getElementById("loginModal");
+  if(modal) modal.style.display = "none";
 }
 
-// تسجيل المستخدم بالبريد الإلكتروني الحقيقي
 function loginUserByEmail() {
-  const email = document.getElementById("emailInput").value.trim();
-  const password = document.getElementById("passwordInput").value.trim();
+  const emailInput = document.getElementById("emailInput");
+  const passwordInput = document.getElementById("passwordInput");
+  
+  if(!emailInput || !passwordInput) return;
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
 
   if (email === "" || !email.includes("@") || !email.includes(".")) {
     alert("من فضلك أدخل بريد إلكتروني صحيح");
@@ -116,10 +116,7 @@ function loginUserByEmail() {
     return;
   }
 
-  // استخراج اسم المستخدم من البريد الإلكتروني
   const username = email.split('@')[0];
-
-  // حفظ بيانات المستخدم في المتصفح
   localStorage.setItem("loggedUser", username);
   localStorage.setItem("loggedEmail", email);
 
@@ -130,12 +127,11 @@ function loginUserByEmail() {
   updateUIAfterLogin();
   closeLogin();
 
-  document.getElementById("emailInput").value = "";
-  document.getElementById("passwordInput").value = "";
+  emailInput.value = "";
+  passwordInput.value = "";
   alert("تم تسجيل الدخول بنجاح، أهلاً بك في Golden Eagle! 🦅");
 }
 
-// تحديث واجهة الموقع بعد تسجيل الدخول
 function updateUIAfterLogin() {
   const user = localStorage.getItem("loggedUser");
   const loginBtn = document.getElementById("loginButton");
@@ -154,31 +150,31 @@ function updateUIAfterLogin() {
   }
 }
 
-// فتح نافذة إعدادات البروفايل
 function openProfileModal() {
   const user = localStorage.getItem("loggedUser") || "";
   const avatar = localStorage.getItem("userAvatar") || "image/logo.jpg";
 
-  document.getElementById("editUsernameInput").value = user;
-  document.getElementById("modalAvatarPreview").src = avatar;
+  const usernameInput = document.getElementById("editUsernameInput");
+  const avatarPreview = document.getElementById("modalAvatarPreview");
+  
+  if(usernameInput) usernameInput.value = user;
+  if(avatarPreview) avatarPreview.src = avatar;
 
-  const fileInput = document.getElementById("editAvatarFile");
-  if (fileInput) fileInput.value = "";
-
-  document.getElementById("profileModal").style.display = "flex";
+  const modal = document.getElementById("profileModal");
+  if(modal) modal.style.display = "flex";
 }
 
 function closeProfileModal() {
-  document.getElementById("profileModal").style.display = "none";
+  const modal = document.getElementById("profileModal");
+  if(modal) modal.style.display = "none";
 }
 
-// حفظ تعديلات الاسم أو صورة البروفايل
 function saveProfileChanges() {
-  const newName = document.getElementById("editUsernameInput").value.trim();
+  const usernameInput = document.getElementById("editUsernameInput");
   const fileInput = document.getElementById("editAvatarFile");
 
-  if (newName !== "") {
-    localStorage.setItem("loggedUser", newName);
+  if (usernameInput && usernameInput.value.trim() !== "") {
+    localStorage.setItem("loggedUser", usernameInput.value.trim());
   }
 
   if (fileInput && fileInput.files && fileInput.files[0]) {
@@ -197,7 +193,6 @@ function saveProfileChanges() {
   }
 }
 
-// تسجيل الخروج
 function logoutUser() {
   localStorage.removeItem("loggedUser");
   localStorage.removeItem("loggedEmail");
@@ -205,7 +200,6 @@ function logoutUser() {
   location.reload();
 }
 
-// تنفيذ الوظائف فور تحميل الصفحة
 window.onload = function() {
   updateUIAfterLogin();
 };
