@@ -245,11 +245,11 @@ function sendOrderWhatsApp() {
   }
 
   const name = document.getElementById("custName")?.value.trim();
-  const gameId = document.getElementById("custGameId")?.value.trim();
+  const phone = document.getElementById("custPhone")?.value.trim();
   const payment = document.getElementById("custPayment")?.value;
 
-  if (!name || !gameId) {
-    alert("برجاء كتابة الاسم وايدي الحساب (Roblox Username / ID) لإكمال الطلب.");
+  if (!name || !phone) {
+    alert("برجاء كتابة اسمك ورقم هاتفك لإكمال الطلب.");
     return;
   }
 
@@ -262,7 +262,7 @@ function sendOrderWhatsApp() {
 
   const msg = `🦅 *طلب شراء جديد من Golden Eagle Store* 🦅\n\n` +
               `👤 *اسم العميل:* ${name}\n` +
-              `🎮 *اليوزر / ID الحساب:* ${gameId}\n` +
+              `📞 *رقم الهاتف:* ${phone}\n` +
               `💳 *طريقة الدفع:* ${payment}\n\n` +
               `🛒 *المنتجات المطلوبة:* \n${itemsText}\n` +
               `💰 *الإجمالي النهائي:* ${total} جنيه مصري\n\n` +
