@@ -1,18 +1,18 @@
 // ========================================================
-// 🦅 Golden Eagle Store - Main Script Engine
+// 🦅 Golden Eagle Store - Production Engine
 // ========================================================
 
-const MY_PHONE_NUMBER = "201033139050"; // رقم الواتساب المربوط
-const MY_DISCORD_SERVER = "https://discord.gg/eV38XtmmJc"; // رابط الديسكورد
+const MY_PHONE_NUMBER = "201033139050";
+const MY_DISCORD_SERVER = "https://discord.gg/eV38XtmmJc";
 
-// قائمة المنتجات المعروضة (Roblox, Blox Fruits, Coins, Games)
+// بيانات المنتجات بالكامل
 const productsData = [
   // --- قسم روبلوكس و Blox Fruits ---
   {
     id: 1,
     title: "Blox Fruits - Permanent Kitsune",
     category: "roblox",
-    badge: "الأكثر طلباً🔥",
+    badge: "الأكثر طلباً 🔥",
     price: 1850,
     desc: "فاكهة كيتسوني الدائمة (Permanent Kitsune) تسليم مباشر داخل السيرفر الخاص.",
     img: "image/logo.jpg"
@@ -104,24 +104,34 @@ const productsData = [
   }
 ];
 
-let cart = [];
+let cart = JSON.parse(localStorage.getItem("ge_cart")) || [];
 
-// Initialize Store
 document.addEventListener("DOMContentLoaded", () => {
-  renderProducts("all");
+  renderProductsList(productsData);
+  updateCartUI();
 
-  // Live Search Event
-  document.getElementById("searchInput").addEventListener("input", (e) => {
-    const val = e.target.value.toLowerCase();
-    const filtered = productsData.filter(p => p.title.toLowerCase().includes(val) || p.desc.toLowerCase().includes(val));
-    renderProductsList(filtered);
-  });
+  // Search filter
+  const searchInput = document.getElementById("searchInput");
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      const val = e.target.value.toLowerCase().trim();
+      const filtered = productsData.filter(p => 
+        p.title.toLowerCase().includes(val) || 
+        p.desc.toLowerCase().includes(val)
+      );
+      renderProductsList(filtered);
+    });
+  }
 });
 
-// Switch Category Tabs
+// Switch Tab Logic
 function switchTab(category) {
-  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
-  event.currentTarget.classList.add("active");
+  const tabs = document.querySelectorAll(".tab-btn");
+  tabs.forEach(btn => btn.classList.remove("active"));
+  
+  if (event && event.currentTarget) {
+    event.currentTarget.classList.add("active");
+  }
 
   if (category === "all") {
     renderProductsList(productsData);
@@ -131,17 +141,15 @@ function switchTab(category) {
   }
 }
 
-function renderProducts(category) {
-  renderProductsList(productsData);
-}
-
-// Render Products HTML
+// Render Products
 function renderProductsList(list) {
   const container = document.getElementById("productsContainer");
+  if (!container) return;
+  
   container.innerHTML = "";
 
   if (list.length === 0) {
-    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">لا توجد منتجات تطابق بحثك حالياً.</div>`;
+    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px; font-weight: 700;">لا توجد منتجات تطابق بحثك حالياً.</div>`;
     return;
   }
 
@@ -166,11 +174,12 @@ function renderProductsList(list) {
   });
 }
 
-// Cart Logic
+// Cart Operations
 function addToCart(productId) {
   const item = productsData.find(p => p.id === productId);
   if (item) {
     cart.push(item);
+    saveCart();
     updateCartUI();
     toggleCartModal(true);
   }
@@ -178,17 +187,26 @@ function addToCart(productId) {
 
 function removeFromCart(index) {
   cart.splice(index, 1);
+  saveCart();
   updateCartUI();
 }
 
-function updateCartUI() {
-  document.getElementById("cartBadge").innerText = cart.length;
-  const listElem = document.getElementById("cartItemsList");
-  listElem.innerHTML = "";
+function saveCart() {
+  localStorage.setItem("ge_cart", JSON.stringify(cart));
+}
 
+function updateCartUI() {
+  const badge = document.getElementById("cartBadge");
+  if (badge) badge.innerText = cart.length;
+
+  const listElem = document.getElementById("cartItemsList");
+  if (!listElem) return;
+
+  listElem.innerHTML = "";
   let total = 0;
+
   if (cart.length === 0) {
-    listElem.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 15px;">السلة فارغة حالياً</p>`;
+    listElem.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 20px;">السلة فارغة حالياً</p>`;
   } else {
     cart.forEach((item, idx) => {
       total += item.price;
@@ -205,11 +223,13 @@ function updateCartUI() {
     });
   }
 
-  document.getElementById("cartTotalVal").innerText = `${total} ج.م`;
+  const totalElem = document.getElementById("cartTotalVal");
+  if (totalElem) totalElem.innerText = `${total} ج.م`;
 }
 
 function toggleCartModal(forceOpen = false) {
   const modal = document.getElementById("cartModal");
+  if (!modal) return;
   if (forceOpen) {
     modal.classList.add("active");
   } else {
@@ -217,19 +237,19 @@ function toggleCartModal(forceOpen = false) {
   }
 }
 
-// WhatsApp Order Generator
+// WhatsApp Direct Checkout
 function sendOrderWhatsApp() {
   if (cart.length === 0) {
-    alert("برجاء إضافة منتجات للسلة أولاً!");
+    alert("السلة فارغة! برجاء إضافة منتجات أولاً.");
     return;
   }
 
-  const name = document.getElementById("custName").value.trim();
-  const gameId = document.getElementById("custGameId").value.trim();
-  const payment = document.getElementById("custPayment").value;
+  const name = document.getElementById("custName")?.value.trim();
+  const gameId = document.getElementById("custGameId")?.value.trim();
+  const payment = document.getElementById("custPayment")?.value;
 
   if (!name || !gameId) {
-    alert("برجاء كتابة الاسم/الهاتف واسم المستخدم (Roblox / ID) لاستكمال الطلب.");
+    alert("برجاء كتابة الاسم وايدي الحساب (Roblox Username / ID) لإكمال الطلب.");
     return;
   }
 
@@ -240,14 +260,13 @@ function sendOrderWhatsApp() {
     total += item.price;
   });
 
-  const msg = `🦅 *طلب جديد من Golden Eagle Store* 🦅\n\n` +
+  const msg = `🦅 *طلب شراء جديد من Golden Eagle Store* 🦅\n\n` +
               `👤 *اسم العميل:* ${name}\n` +
-              `🎮 *اليوزر / Player ID:* ${gameId}\n` +
+              `🎮 *اليوزر / ID الحساب:* ${gameId}\n` +
               `💳 *طريقة الدفع:* ${payment}\n\n` +
-              `🛒 *الطلبات:* \n${itemsText}\n` +
-              `💰 *الإجمالي الكلي:* ${total} جنيه مصري\n\n` +
-              `يرجى تأكيد الطلب وتزويدي برقم المحفظة لتحويل المبلغ.`;
+              `🛒 *المنتجات المطلوبة:* \n${itemsText}\n` +
+              `💰 *الإجمالي النهائي:* ${total} جنيه مصري\n\n` +
+              `برجاء إرسال تفاصيل التحويل لإكمال الطلب فوراً.`;
 
-  const encodedMsg = encodeURIComponent(msg);
-  window.open(`https://wa.me/${MY_PHONE_NUMBER}?text=${encodedMsg}`, "_blank");
+  window.open(`https://wa.me/${MY_PHONE_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
 }
