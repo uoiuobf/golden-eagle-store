@@ -1,205 +1,253 @@
-// ==========================================
+// ========================================================
 // 🦅 Golden Eagle Store - Main Script Engine
-// ==========================================
+// ========================================================
 
-const MY_PHONE_NUMBER = "201033139050"; // رقم الواتساب الخاص بك
-const MY_DISCORD_SERVER = "https://discord.gg/eV38XtmmJc"; // رابط ديسكورد الخاص بك
+const MY_PHONE_NUMBER = "201033139050"; // رقم الواتساب المربوط
+const MY_DISCORD_SERVER = "https://discord.gg/eV38XtmmJc"; // رابط الديسكورد
 
-let selectedProduct = { name: "", price: "" };
+// قائمة المنتجات المعروضة (Roblox, Blox Fruits, Coins, Games)
+const productsData = [
+  // --- قسم روبلوكس و Blox Fruits ---
+  {
+    id: 1,
+    title: "Blox Fruits - Permanent Kitsune",
+    category: "roblox",
+    badge: "الأكثر طلباً🔥",
+    price: 1850,
+    desc: "فاكهة كيتسوني الدائمة (Permanent Kitsune) تسليم مباشر داخل السيرفر الخاص.",
+    img: "image/logo.jpg"
+  },
+  {
+    id: 2,
+    title: "Blox Fruits - Permanent Dragon",
+    category: "roblox",
+    badge: "نادر جداً 🐉",
+    price: 2100,
+    desc: "فاكهة التنين الدائمة بعد التحديث الجديد (Permanent Dragon).",
+    img: "image/logo.jpg"
+  },
+  {
+    id: 3,
+    title: "Blox Fruits - Max Level Farm (1 - 2550)",
+    category: "roblox",
+    badge: "خدمة فارم ⚡",
+    price: 350,
+    desc: "رفع لفل حسابك إلى الحد الأقصى (Max Level) بأمان تام 100%.",
+    img: "image/logo.jpg"
+  },
+  {
+    id: 4,
+    title: "Blox Fruits - Race V4 Full Unlock",
+    category: "roblox",
+    badge: "خدمات تفتيح",
+    price: 450,
+    desc: "تفتيح ريس V4 كامل مع المهارات والتداين للسباق المفضل لك.",
+    img: "image/logo.jpg"
+  },
+  {
+    id: 5,
+    title: "Roblox - 1,000 Robux",
+    category: "roblox",
+    badge: "شحن روبوكس",
+    price: 320,
+    desc: "شحن 1000 روبوكس حساب مباشر أو عبر Gamepass.",
+    img: "image/logo.jpg"
+  },
 
-function openOrderModal(productName, productPrice) {
-  selectedProduct.name = productName;
-  selectedProduct.price = productPrice;
+  // --- قسم الشحن والعملات ---
+  {
+    id: 6,
+    title: "FC 25 - 1,050 FC Points",
+    category: "coins",
+    badge: "كرة قدم ⚽",
+    price: 490,
+    desc: "شحن نقاط فيفا FC 25 فورياً لجميع المنصات (PS/PC/Xbox).",
+    img: "image/logo.jpg"
+  },
+  {
+    id: 7,
+    title: "PUBG Mobile - 660 UC",
+    category: "coins",
+    badge: "شحن شدات 📱",
+    price: 420,
+    desc: "شحن شدات ببجي موبايل برقم الـ Player ID فقط.",
+    img: "image/logo.jpg"
+  },
+  {
+    id: 8,
+    title: "Valorant - 1,000 VP",
+    category: "coins",
+    badge: "فالورانت 🎯",
+    price: 450,
+    desc: "شحن نقاط فالورانت كروت تفعيل رسمية سريعة.",
+    img: "image/logo.jpg"
+  },
 
-  const titleEl = document.getElementById("selectedItemTitle");
-  const priceEl = document.getElementById("selectedItemPrice");
-  
-  if(titleEl) titleEl.innerText = productName;
-  if(priceEl) priceEl.innerText = "السعر: " + productPrice;
+  // --- قسم الألعاب الحسابات ---
+  {
+    id: 9,
+    title: "Grand Theft Auto V & VI (Steam Offline)",
+    category: "games",
+    badge: "أوفلاين ممتاز 🎮",
+    price: 120,
+    desc: "حساب ستيم أوفلاين محمل بالكامل مع ضمان الاستمرار والتحديثات.",
+    img: "image/logo.jpg"
+  },
+  {
+    id: 10,
+    title: "EA SPORTS FC 25 (Steam Offline)",
+    category: "games",
+    badge: "ألعاب أوفلاين",
+    price: 150,
+    desc: "حساب EA FC 25 أوفلاين للكمبيوتر بتسليم فوري مع الضمان.",
+    img: "image/logo.jpg"
+  }
+];
 
-  const modal = document.getElementById("orderModal");
-  if(modal) modal.style.display = "flex";
-}
+let cart = [];
 
-function closeOrderModal() {
-  const modal = document.getElementById("orderModal");
-  if(modal) modal.style.display = "none";
-}
+// Initialize Store
+document.addEventListener("DOMContentLoaded", () => {
+  renderProducts("all");
 
-function sendToWhatsApp() {
-  const loggedUser = localStorage.getItem("loggedUser") || "زائر جديد";
-  const message = `مرحباً متجر Golden Eagle 🦅\nأرغب في شراء: *${selectedProduct.name}*\nالسعر المعلن: *${selectedProduct.price}*\nاسم العميل: *${loggedUser}*`;
-  
-  const encodedMessage = encodeURIComponent(message);
-  const whatsappUrl = `https://wa.me/${MY_PHONE_NUMBER}?text=${encodedMessage}`;
-
-  window.open(whatsappUrl, "_blank");
-  closeOrderModal();
-}
-
-function buyViaWhatsApp(productName, productPrice) {
-  openOrderModal(productName, productPrice);
-}
-
-function sendToDiscord() {
-  const loggedUser = localStorage.getItem("loggedUser") || "زائر جديد";
-  alert(`سيتم تحويلك لسيرفر الديسكورد، يرجى فتح تكت بنفس التفاصيل:\nالمنتج: ${selectedProduct.name}\nالسعر: ${selectedProduct.price}\nالاسم: ${loggedUser}`);
-  window.open(MY_DISCORD_SERVER, "_blank");
-  closeOrderModal();
-}
-
-function searchProducts() {
-  const input = document.getElementById("searchInput").value.toLowerCase().trim();
-  const cards = document.querySelectorAll(".game-card");
-
-  cards.forEach(card => {
-    const title = card.querySelector("h4").innerText.toLowerCase();
-    const description = card.querySelector("p").innerText.toLowerCase();
-
-    if (title.includes(input) || description.includes(input)) {
-      card.style.display = "block";
-    } else {
-      card.style.display = "none";
-    }
+  // Live Search Event
+  document.getElementById("searchInput").addEventListener("input", (e) => {
+    const val = e.target.value.toLowerCase();
+    const filtered = productsData.filter(p => p.title.toLowerCase().includes(val) || p.desc.toLowerCase().includes(val));
+    renderProductsList(filtered);
   });
-}
+});
 
-function filterCategory(category) {
-  const cards = document.querySelectorAll(".game-card");
-  cards.forEach(card => {
-    const cardCat = card.getAttribute("data-category");
-    if (category === 'all' || cardCat === category) {
-      card.style.display = "block";
-    } else {
-      card.style.display = "none";
-    }
-  });
-}
+// Switch Category Tabs
+function switchTab(category) {
+  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+  event.currentTarget.classList.add("active");
 
-function scrollToSection(sectionId) {
-  const section = document.getElementById(sectionId);
-  if (section) {
-    section.scrollIntoView({ behavior: "smooth" });
+  if (category === "all") {
+    renderProductsList(productsData);
+  } else {
+    const filtered = productsData.filter(p => p.category === category);
+    renderProductsList(filtered);
   }
 }
 
-function toggleCart() {
-  alert("السلة قيد التحديث والتطوير 😎");
+function renderProducts(category) {
+  renderProductsList(productsData);
 }
 
-function openLogin() {
-  const modal = document.getElementById("loginModal");
-  if(modal) modal.style.display = "flex";
-}
+// Render Products HTML
+function renderProductsList(list) {
+  const container = document.getElementById("productsContainer");
+  container.innerHTML = "";
 
-function closeLogin() {
-  const modal = document.getElementById("loginModal");
-  if(modal) modal.style.display = "none";
-}
-
-function loginUserByEmail() {
-  const emailInput = document.getElementById("emailInput");
-  const passwordInput = document.getElementById("passwordInput");
-  
-  if(!emailInput || !passwordInput) return;
-
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
-
-  if (email === "" || !email.includes("@") || !email.includes(".")) {
-    alert("من فضلك أدخل بريد إلكتروني صحيح");
+  if (list.length === 0) {
+    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">لا توجد منتجات تطابق بحثك حالياً.</div>`;
     return;
   }
 
-  if (password.length < 6) {
-    alert("كلمة المرور يجب أن تكون 6 أحرف على الأقل");
+  list.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "product-card";
+    card.innerHTML = `
+      <span class="card-badge">${p.badge}</span>
+      <img src="${p.img}" alt="${p.title}" class="product-img">
+      <div class="product-info">
+        <h3 class="product-title">${p.title}</h3>
+        <p class="product-desc">${p.desc}</p>
+        <div class="product-bottom">
+          <span class="product-price">${p.price} ج.م</span>
+          <button class="add-btn" onclick="addToCart(${p.id})">
+            <i class="fas fa-cart-plus"></i> إضافة للسلة
+          </button>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// Cart Logic
+function addToCart(productId) {
+  const item = productsData.find(p => p.id === productId);
+  if (item) {
+    cart.push(item);
+    updateCartUI();
+    toggleCartModal(true);
+  }
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  updateCartUI();
+}
+
+function updateCartUI() {
+  document.getElementById("cartBadge").innerText = cart.length;
+  const listElem = document.getElementById("cartItemsList");
+  listElem.innerHTML = "";
+
+  let total = 0;
+  if (cart.length === 0) {
+    listElem.innerHTML = `<p style="text-align: center; color: var(--text-muted); padding: 15px;">السلة فارغة حالياً</p>`;
+  } else {
+    cart.forEach((item, idx) => {
+      total += item.price;
+      const row = document.createElement("div");
+      row.className = "cart-item";
+      row.innerHTML = `
+        <div>
+          <button class="remove-item-btn" onclick="removeFromCart(${idx})"><i class="fas fa-trash"></i></button>
+          <span class="cart-item-title">${item.title}</span>
+        </div>
+        <span class="cart-item-price">${item.price} ج.م</span>
+      `;
+      listElem.appendChild(row);
+    });
+  }
+
+  document.getElementById("cartTotalVal").innerText = `${total} ج.م`;
+}
+
+function toggleCartModal(forceOpen = false) {
+  const modal = document.getElementById("cartModal");
+  if (forceOpen) {
+    modal.classList.add("active");
+  } else {
+    modal.classList.toggle("active");
+  }
+}
+
+// WhatsApp Order Generator
+function sendOrderWhatsApp() {
+  if (cart.length === 0) {
+    alert("برجاء إضافة منتجات للسلة أولاً!");
     return;
   }
 
-  const username = email.split('@')[0];
-  localStorage.setItem("loggedUser", username);
-  localStorage.setItem("loggedEmail", email);
+  const name = document.getElementById("custName").value.trim();
+  const gameId = document.getElementById("custGameId").value.trim();
+  const payment = document.getElementById("custPayment").value;
 
-  if (!localStorage.getItem("userAvatar")) {
-    localStorage.setItem("userAvatar", "image/logo.jpg");
+  if (!name || !gameId) {
+    alert("برجاء كتابة الاسم/الهاتف واسم المستخدم (Roblox / ID) لاستكمال الطلب.");
+    return;
   }
 
-  updateUIAfterLogin();
-  closeLogin();
+  let itemsText = "";
+  let total = 0;
+  cart.forEach((item, index) => {
+    itemsText += `${index + 1}. ${item.title} (${item.price} ج.م)\n`;
+    total += item.price;
+  });
 
-  emailInput.value = "";
-  passwordInput.value = "";
-  alert("تم تسجيل الدخول بنجاح، أهلاً بك في Golden Eagle! 🦅");
+  const msg = `🦅 *طلب جديد من Golden Eagle Store* 🦅\n\n` +
+              `👤 *اسم العميل:* ${name}\n` +
+              `🎮 *اليوزر / Player ID:* ${gameId}\n` +
+              `💳 *طريقة الدفع:* ${payment}\n\n` +
+              `🛒 *الطلبات:* \n${itemsText}\n` +
+              `💰 *الإجمالي الكلي:* ${total} جنيه مصري\n\n` +
+              `يرجى تأكيد الطلب وتزويدي برقم المحفظة لتحويل المبلغ.`;
+
+  const encodedMsg = encodeURIComponent(msg);
+  window.open(`https://wa.me/${MY_PHONE_NUMBER}?text=${encodedMsg}`, "_blank");
 }
-
-function updateUIAfterLogin() {
-  const user = localStorage.getItem("loggedUser");
-  const loginBtn = document.getElementById("loginButton");
-  const userProfileArea = document.getElementById("userProfileArea");
-  const userAvatarImg = document.getElementById("userAvatarImg");
-
-  if (user) {
-    if (loginBtn) loginBtn.style.display = "none";
-    if (userProfileArea) userProfileArea.style.display = "flex";
-
-    const savedAvatar = localStorage.getItem("userAvatar") || "image/logo.jpg";
-    if (userAvatarImg) userAvatarImg.src = savedAvatar;
-  } else {
-    if (loginBtn) loginBtn.style.display = "flex";
-    if (userProfileArea) userProfileArea.style.display = "none";
-  }
-}
-
-function openProfileModal() {
-  const user = localStorage.getItem("loggedUser") || "";
-  const avatar = localStorage.getItem("userAvatar") || "image/logo.jpg";
-
-  const usernameInput = document.getElementById("editUsernameInput");
-  const avatarPreview = document.getElementById("modalAvatarPreview");
-  
-  if(usernameInput) usernameInput.value = user;
-  if(avatarPreview) avatarPreview.src = avatar;
-
-  const modal = document.getElementById("profileModal");
-  if(modal) modal.style.display = "flex";
-}
-
-function closeProfileModal() {
-  const modal = document.getElementById("profileModal");
-  if(modal) modal.style.display = "none";
-}
-
-function saveProfileChanges() {
-  const usernameInput = document.getElementById("editUsernameInput");
-  const fileInput = document.getElementById("editAvatarFile");
-
-  if (usernameInput && usernameInput.value.trim() !== "") {
-    localStorage.setItem("loggedUser", usernameInput.value.trim());
-  }
-
-  if (fileInput && fileInput.files && fileInput.files[0]) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      localStorage.setItem("userAvatar", e.target.result);
-      updateUIAfterLogin();
-      closeProfileModal();
-      alert("تم تحديث البروفايل والصورة بنجاح! ✨");
-    };
-    reader.readAsDataURL(fileInput.files[0]);
-  } else {
-    updateUIAfterLogin();
-    closeProfileModal();
-    alert("تم تحديث البروفايل بنجاح! ✨");
-  }
-}
-
-function logoutUser() {
-  localStorage.removeItem("loggedUser");
-  localStorage.removeItem("loggedEmail");
-  localStorage.removeItem("userAvatar");
-  location.reload();
-}
-
-window.onload = function() {
-  updateUIAfterLogin();
-};
